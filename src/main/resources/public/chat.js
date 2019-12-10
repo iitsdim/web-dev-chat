@@ -1,7 +1,11 @@
 // small helper function for selecting element by id
 let id = id => document.getElementById(id);
 
-let username = prompt("Please enter your username");
+let username = localStorage.getItem("username");
+if (!username) {
+    username = prompt("Please enter your username");
+    localStorage.setItem("username", username);
+}
 
 let ws;
 connectWs();
