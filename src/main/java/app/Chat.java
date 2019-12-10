@@ -41,7 +41,12 @@ public class Chat {
             });
         });
 
-        path("history", () -> {
+        app.routes(() -> {
+            path("history", () -> {
+                get(ctx -> {
+                    ctx.json(messageList);
+                });
+            });
         });
 
     }
