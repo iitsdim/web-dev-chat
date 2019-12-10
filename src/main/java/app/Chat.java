@@ -4,10 +4,11 @@ import app.util.HerokuUtil;
 import io.javalin.Javalin;
 import io.javalin.websocket.WsContext;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import org.json.JSONObject;
+
+import static io.javalin.apibuilder.ApiBuilder.*;
 import static j2html.TagCreator.article;
 import static j2html.TagCreator.attrs;
 import static j2html.TagCreator.b;
@@ -17,6 +18,7 @@ import static j2html.TagCreator.span;
 public class Chat {
 
     private static Map<WsContext, String> userUsernameMap = new ConcurrentHashMap<>();
+    private static List<String> messageList = Collections.synchronizedList(new ArrayList<>());
 
     public static void main(String[] args) {
         Javalin app = Javalin.create(config -> {
@@ -38,6 +40,10 @@ public class Chat {
                 broadcastMessage(userUsernameMap.get(ctx), ctx.message());
             });
         });
+
+        path("history", () -> {
+        });
+
     }
 
     private static String user(WsContext ctx) {
@@ -46,12 +52,12 @@ public class Chat {
 
     // Sends a message from one user to all users, along with a list of current usernames
     private static void broadcastMessage(String sender, String message) {
+        String messageJson = new JSONObject()
+                .put("userMessage", createHtmlMessageFromSender(sender, message))
+                .put("userList", userUsernameMap.values()).toString();
+        messageList.add(messageJson);
         userUsernameMap.keySet().stream().filter(ctx -> ctx.session.isOpen()).forEach(session -> {
-            session.send(
-                new JSONObject()
-                    .put("userMessage", createHtmlMessageFromSender(sender, message))
-                    .put("userList", userUsernameMap.values()).toString()
-            );
+            session.send(messageJson);
         });
     }
 
