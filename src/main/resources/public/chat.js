@@ -3,10 +3,16 @@ let id = id => document.getElementById(id);
 
 let username = prompt("Please enter your username");
 
-// Establish the WebSocket connection and set up event handlers
-let ws = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat?user=" + username);
-ws.onmessage = msg => updateChat(msg);
-ws.onclose = () => alert("WebSocket connection closed");
+let ws;
+connectWs();
+
+function connectWs() {
+    // Establish the WebSocket connection and set up event handlers
+    ws = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat?user=" + username);
+    ws.onmessage = msg => updateChat(msg);
+    ws.onclose = () => connectWs();
+}
+
 
 // Add event listeners to button and input field
 id("send").addEventListener("click", () => sendAndClear(id("message").value));
