@@ -68,11 +68,15 @@ public class Chat {
 
     // Builds a HTML element with a sender-name, a message, and a timestamp
     private static String createHtmlMessageFromSender(String sender, String message) {
-        return article(
-            b(sender + " says:"),
-            span(attrs(".timestamp"), new SimpleDateFormat("HH:mm:ss").format(new Date())),
-            p(message)
-        ).render();
+        return String.format("<article><b>%s says:</b><span class=\"timestamp\">%s</span><p>%s</p></article>",
+                sender,
+                new SimpleDateFormat("HH:mm:ss").format(new Date()),
+                message);
+//        return article(
+//            b(sender + " says:"),
+//            span(attrs(".timestamp"), new SimpleDateFormat("HH:mm:ss").format(new Date())),
+//            p(message)
+//        ).render();
     }
 
 }
