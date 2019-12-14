@@ -2,10 +2,10 @@
 let id = id => document.getElementById(id);
 
 let username = localStorage.getItem("username");
-if (!username) {
+while (!username) {
     username = prompt("Please enter your username");
-    localStorage.setItem("username", username);
 }
+localStorage.setItem("username", username);
 
 let xhr = new XMLHttpRequest();
 xhr.open('GET', '/history');
