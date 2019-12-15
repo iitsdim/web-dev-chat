@@ -59,6 +59,7 @@ public class Chat {
     private static void broadcastMessage(String sender, String message) {
         String messageJson = new JSONObject()
                 .put("userMessage", createHtmlMessageFromSender(sender, message))
+                // userList contains unencoded values - allows XSS
                 .put("userList", userUsernameMap.values()).toString();
         messageList.add(messageJson);
         userUsernameMap.keySet().stream().filter(ctx -> ctx.session.isOpen()).forEach(session -> {
@@ -68,15 +69,19 @@ public class Chat {
 
     // Builds a HTML element with a sender-name, a message, and a timestamp
     private static String createHtmlMessageFromSender(String sender, String message) {
+        return article(
+            b(sender + " says:"),
+            span(attrs(".timestamp"), new SimpleDateFormat("HH:mm:ss").format(new Date())),
+            p(message)
+        ).render();
+
+        // this is unsafe way - no html encoding
+/*
         return String.format("<article><b>%s says:</b><span class=\"timestamp\">%s</span><p>%s</p></article>",
                 sender,
                 new SimpleDateFormat("HH:mm:ss").format(new Date()),
                 message);
-//        return article(
-//            b(sender + " says:"),
-//            span(attrs(".timestamp"), new SimpleDateFormat("HH:mm:ss").format(new Date())),
-//            p(message)
-//        ).render();
+*/
     }
 
 }

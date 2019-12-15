@@ -1,17 +1,18 @@
-// small helper function for selecting element by id
+// helper function for selecting element by id
 let id = id => document.getElementById(id);
 
+// ask user to enter his name
 let username = localStorage.getItem("username");
 while (!username) {
     username = prompt("Please enter your username");
 }
 localStorage.setItem("username", username);
 
+// get chat history using XHR
 let xhr = new XMLHttpRequest();
 xhr.open('GET', '/history');
 xhr.send();
 
-// 4. This will be called after the response is received
 xhr.onload = function() {
     if (xhr.status !== 200) { // analyze HTTP status of the response
         alert(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
@@ -27,7 +28,7 @@ xhr.onerror = function() {
     alert("Request failed");
 };
 
-
+// WebSocket connection setup
 let ws;
 connectWs();
 
@@ -54,7 +55,8 @@ function sendAndClear(message) {
     }
 }
 
-function updateChat(msg) { // Update chat-panel and list of connected users
+// Update chat-panel and list of connected users
+function updateChat(msg) {
     let data = JSON.parse(msg);
     id("chat").insertAdjacentHTML("afterbegin", data.userMessage);
     id("userList").innerHTML = data.userList.map(user => "<li>" + user + "</li>").join("");
