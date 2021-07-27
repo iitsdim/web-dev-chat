@@ -1,6 +1,6 @@
 # Web-dev-chat
 
-Chat example for web dev class.
+Simple chat example for web dev class.
 
 ### Showcase
 
@@ -16,7 +16,7 @@ Chat example for web dev class.
 
 ### Web security
 
-Allows to play with XSS attack:
+Allows experimenting with XSS attack:
 
 ```html
 <span onmouseover="alert('XSS testing!')">Hello all!</span>

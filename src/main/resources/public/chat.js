@@ -8,25 +8,15 @@ while (!username) {
 }
 localStorage.setItem("username", username);
 
-// get chat history using XHR
-let xhr = new XMLHttpRequest();
-xhr.open('GET', '/history');
-xhr.send();
-
-xhr.onload = function() {
-    if (xhr.status !== 200) { // analyze HTTP status of the response
-        alert(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
-    } else { // show the result
-        console.log(`Done, got ${xhr.response.length} bytes`); // responseText is the server
-        for (let msg of JSON.parse(xhr.response)) {
-            updateChat(msg);
+// get chat history
+fetch('/history')
+    .then(response => response.json())
+    .then(data => {
+        for (const message of data) {
+            updateChat(message);
         }
-    }
-};
+    });
 
-xhr.onerror = function() {
-    alert("Request failed");
-};
 
 // WebSocket connection setup
 let ws;
@@ -34,7 +24,8 @@ connectWs();
 
 function connectWs() {
     // Establish the WebSocket connection and set up event handlers
-    ws = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat?user=" + username);
+    const protocol = (location.protocol === 'https:') ? 'wss' : 'ws';
+    ws = new WebSocket(`${protocol}://${location.hostname}:${location.port}/chat?user=${username}`);
     ws.onmessage = msg => updateChat(msg.data);
     ws.onclose = () => connectWs();
 }
