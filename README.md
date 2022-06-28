@@ -23,7 +23,7 @@ Allows experimenting with XSS attack:
 ```
 
 ```html
-<img onload="alert('I\'m a hacker!')" alt="" src="//upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Backlit_keyboard.jpg/220px-Backlit_keyboard.jpg" decoding="async" width="220" height="124">
+<img src='x' onerror='alert(1)' alt="">
 ```
 
 Task: steal cookies and localStorage values from other chat participants.
