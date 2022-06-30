@@ -1,12 +1,53 @@
-* {
-    box-sizing: border-box;
+.all {
+    margin: 80px;
+    display: flex;
 }
 
-body {
-    font: 14px monospace;
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 30px 20px;
+.child1 {
+    height: 600px;
+    width: 730px;
+}
+
+.logo {
+    background-color: lightblue;
+    height: 40px;
+    width: 310px;
+}
+
+.othervideo {
+    background-color: red;
+    height: 400px;
+    width: 700px;
+}
+
+.yourvideo {
+    margin-left: 10px;
+    background-color: white;
+    height: 80px;
+    width: 140px;
+}
+
+.yourinfo {
+    background-color: blue;
+    height: 80px;
+    width: 400px;
+}
+
+.child2 {
+    height: 600px;
+    width: 40px;
+}
+
+.oldtexts {
+    background-color: purple;
+    height: 530px;
+    width: 400px;
+}
+
+.currenttext {
+    background-color: pink;
+    height: 80px;
+    width: 400px;
 }
 
 input {
@@ -28,7 +69,6 @@ li {
 }
 
 #userList {
-    position: fixed;
     left: 50%;
     list-style: none;
     margin: 0 0 0 250px;
@@ -44,7 +84,6 @@ li {
 }
 
 #chat .timestamp {
-    position: absolute;
     top: 10px;
     right: 10px;
     font-size: 12px;
@@ -55,7 +94,6 @@ li {
     padding: 10px;
     margin: 10px 0;
     border-left: 5px solid #aaa;
-    position: relative;
     word-wrap: break-word;
 }
 
